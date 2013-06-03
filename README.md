@@ -21,10 +21,7 @@ Documentation
 
 Example to use:
 <pre>
-/**
-*	Lipsum...
-*	@@hackeable yes
-*/
+// For some demos.
 interface ICore {}
 trait TCore {}
 
