@@ -36,17 +36,12 @@ class Core implements ICore
 */
 class Main extends Core
 {
-	private $var = "I am Private" ;
-
 	/**
 	*	Lipsum...
 	*	@@serial 334-3434-2342
 	*	@@key 12A34F5
 	*/
-	private function setVar( $value )
-	{
-		$this->var = $value ;
-	}
+	private function setVar( $value ) {}
 }
 
 $reflection = new ClassReflection( 'Main' ) ;
