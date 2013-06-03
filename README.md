@@ -62,11 +62,14 @@ if ( $attributes\[ 'hackeable' \] == 'yes' )
 {
 	// Happy hacking!!! ;)
 	$paranoid = new AllowAccessWrapper( $paranoid ) ;
+
+	// Nude mode on!
+	$paranoid->var2 = 'Please, allow me' ; // NOW OK!
+	$paranoid->setVar1( 'Please, allow me' ) ; // OK too!
 }
 
-// Nude mode on!
-$paranoid->var2 = 'Please, allow me' ; // NOW OK!
-$paranoid->setVar1( 'Please, allow me' ) ; // OK too!
+// See the new values?!!!
+print_r( $paranoid ) ;
 
 // Other example:
 $attrReader = new AttributeReader ;
