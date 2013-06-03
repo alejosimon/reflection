@@ -25,56 +25,42 @@ Example to use:
 interface ICore {}
 trait TCore {}
 
-class Father implements ICore
+class Core implements ICore
 {
 	use TCore ;
 }
 
 /**
 *	Lipsum...
-*	@@hackeable yes
+*	@@demo yes
 */
-class ExtemeParanoid extends Father
+class Main extends Core
 {
-	private   $var1 = "I am Private" ;
-	protected $var2 = "I am Protected" ;
-	public    $var3 = "I am Public" ;
+	private $var = "I am Private" ;
 
 	/**
 	*	Lipsum...
 	*	@@serial 334-3434-2342
-	*	@@checkable yes
+	*	@@key 12A34F5
 	*/
-	private function setVar1( $value )
+	private function setVar( $value )
 	{
-		$this->var1 = $value ;
+		$this->var = $value ;
 	}
 }
 
-$paranoid = new ExtemeParanoid ;
-//$paranoid->var2 = 'Please, allow me' ; // ERROR!
+$reflection = new ClassReflection( 'Main' ) ;
 
-// Manage any pre-compiling or any other pre-checks.
-$reflection = new ObjectReflection( $paranoid ) ;
-$attributes = $reflection->getAttributes() ; // Also for the other types of reflections.
+// Manage any pre-compiling or any other pre-checks, and others.
+// Also for the other types of reflections.
+$attributes = $reflection->getAttributes() ;
 
-if ( $attributes\[ 'hackeable' \] == 'yes' )
-{
-	// Happy hacking!!! ;)
-	$paranoid = new AllowAccessWrapper( $paranoid ) ;
-
-	// Nude mode on!
-	$paranoid->var2 = 'Please, allow me' ; // NOW OK!
-	$paranoid->setVar1( 'Please, allow me' ) ; // OK too!
-}
-
-// See the new values?!!!
-print_r( $paranoid ) ;
+$app = ( $attributes[ 'demo' ] == 'yes' ) ? new DemoClass : new ProClass ;
 
 // Other example:
 $attrReader = new AttributeReader ;
 
-print_r( $attrReader->getMethodAttributes( 'ExtemeParanoid', 'setVar1' ) ) ;
+print_r( $attrReader->getMethodAttributes( 'Main', 'setVar' ) ) ;
 
 // ... and more.
 print_r( $reflection->getAncestors() ) ;
