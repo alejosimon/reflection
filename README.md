@@ -32,14 +32,17 @@ class Core implements ICore
 
 /**
 *	Lipsum...
-*	@@demo yes
+*	@demo yes
+*
+*	@@CacheConditions( lifetime = 3600, forever = yes )
+*	@@Licence( type = GPL, version = 3 )
 */
 class Main extends Core
 {
 	/**
 	*	Lipsum...
-	*	@@serial 334-3434-2342
-	*	@@key 12A34F5
+	*	@serial 334-3434-2342
+	*	@key 12A34F5
 	*/
 	private function setVar( $value ) {}
 }
@@ -49,6 +52,10 @@ $reflection = new ClassReflection( 'Main' ) ;
 // Manage any pre-compiling or any other pre-checks, and others.
 // Also for the other types of reflections.
 $attributes = $reflection->getAttributes() ;
+$annotations = $reflection->getAnnotations() ;
+
+print_r( $attributes ) ;
+print_r( $annotations ) ;
 
 $app = ( $attributes[ 'demo' ] == 'yes' ) ? new DemoClass : new ProClass ;
 
