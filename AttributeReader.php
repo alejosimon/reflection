@@ -14,9 +14,9 @@ namespace Reflection ;
 
 /**
 *	@name AttributeReader class.
-*	@version 0.1.0
+*	@version 0.1.1
 */
-class AttributeReader
+class AttributeReader extends Core\ObjectBase
 {
 	/**
 	*	@var String attribute prefix.
@@ -28,7 +28,7 @@ class AttributeReader
 	*
 	*	@param Optional string attribute prefix.
 	*/
-	public function __construct( $prefix = '@@' )
+	public function __construct( $prefix = '@' )
 	{
 		$this->prefix = $prefix ;
 	}
@@ -41,6 +41,19 @@ class AttributeReader
 	public function setPrefix( $prefix )
 	{
 		$this->prefix = $prefix ;
+	}
+
+	/**
+	*	Extract metadata from a source file.
+	*
+	*	@param String class name or an object instance.
+	*	@return Array value.
+	*/
+	public function getFileAttributes( $class )
+	{
+		$ref = new ClassReflection( $class ) ;
+
+		return $ref->getFileAttributes( $this->prefix ) ;
 	}
 
 	/**

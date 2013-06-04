@@ -14,19 +14,19 @@ namespace Reflection ;
 
 /**
 *	@name AnnotationReader class.
-*	@version 0.1.0
+*	@version 0.1.1
 */
-class AnnotationReader
+class AnnotationReader extends Core\ObjectBase
 {
 	/**
-	*	@var String attribute prefix.
+	*	@var String annotation prefix.
 	*/
 	protected $prefix = '' ;
 
 	/**
 	*	Constructor.
 	*
-	*	@param Optional string annotation prefix.
+	*	@param Optional string annotations prefix.
 	*/
 	public function __construct( $prefix = '@@' )
 	{
@@ -34,13 +34,26 @@ class AnnotationReader
 	}
 
 	/**
-	*	Sets the annotation prefix.
+	*	Sets the annotations prefix.
 	*
 	*	@param String prefix.
 	*/
 	public function setPrefix( $prefix )
 	{
 		$this->prefix = $prefix ;
+	}
+
+	/**
+	*	Extract metadata from a source file.
+	*
+	*	@param String class name or an object instance.
+	*	@return Array value.
+	*/
+	public function getFileAnnotations( $class )
+	{
+		$ref = new ClassReflection( $class ) ;
+
+		return $ref->getFileAnnotations( $this->prefix ) ;
 	}
 
 	/**

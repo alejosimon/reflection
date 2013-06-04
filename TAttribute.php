@@ -14,7 +14,7 @@ namespace Reflection ;
 
 /**
 *	@name TAttribute trait.
-*	@version 0.1.1
+*	@version 0.1.2
 */
 trait TAttribute
 {
@@ -26,10 +26,81 @@ trait TAttribute
 	*/
 	public function getAttributes( $prefix = '@' )
 	{
+		return static::extractAttributes( $this->getDocComment(), $prefix ) ;
+	}
+
+	/**
+	*	Extract @attributes from the first file documentation.
+	*
+	*	@param Optional string attribute prefix.
+	*	@return Array value.
+	*/
+	public function getFileAttributes( $prefix = '@' )
+	{
+		if ( is_file( $file = $this->getFileName() ) )
+		{
+			$tokens = token_get_all( file_get_contents( $file ) ) ;
+
+			foreach( $tokens as $token )
+			{
+				if ( $token[ 0 ] == T_DOC_COMMENT )
+				{
+					return static::extractAttributes( $token[ 1 ], $prefix ) ;
+				}
+			}
+		}
+
+		return [] ;
+	}
+
+	/**
+	*	Extract @@annotations from the documentation header.
+	*
+	*	@param Optional string annotation prefix.
+	*	@return Array value.
+	*/
+	public function getAnnotations( $prefix = '@@' )
+	{
+		return static::extractAnnotations( $this->getDocComment(), $prefix ) ;
+	}
+
+	/**
+	*	Extract @@annotations from the first file documentation.
+	*
+	*	@param Optional string annotation prefix.
+	*	@return Array value.
+	*/
+	public function getFileAnnotations( $prefix = '@@' )
+	{
+		if ( is_file( $file = $this->getFileName() ) )
+		{
+			$tokens = token_get_all( file_get_contents( $file ) ) ;
+
+			foreach( $tokens as $token )
+			{
+				if ( $token[ 0 ] == T_DOC_COMMENT )
+				{
+					return static::extractAnnotations( $token[ 1 ], $prefix ) ;
+				}
+			}
+		}
+
+		return [] ;
+	}
+
+	/**
+	*	Extract @attributes from the documentation header.
+	*
+	*	@param String as documentation style.
+	*	@param Optional string attribute prefix.
+	*	@return Array value.
+	*/
+	public static function extractAttributes( $doc, $prefix = '@' )
+	{
 		$attributes = [] ;
 		$regexp = "/\s{$prefix}(\w+)\s+(.+)/u" ;
 
-		preg_match_all( $regexp, $this->getDocComment(), $matches, PREG_SET_ORDER ) ;
+		preg_match_all( $regexp, $doc, $matches, PREG_SET_ORDER ) ;
 
 		foreach ( $matches as $match )
 		{
@@ -42,15 +113,16 @@ trait TAttribute
 	/**
 	*	Extract @@annotations from the documentation header.
 	*
-	*	@param Optional string annotation prefix.
+	*	@param String as documentation style.
+	*	@param Optional string attribute prefix.
 	*	@return Array value.
 	*/
-	public function getAnnotations( $prefix = '@@' )
+	public static function extractAnnotations( $doc, $prefix = '@@' )
 	{
 		$annotations = [] ;
 		$regexp = "/\s{$prefix}(\w+)\((.+)\)/u" ;
 
-		preg_match_all( $regexp, $this->getDocComment(), $matches, PREG_SET_ORDER ) ;
+		preg_match_all( $regexp, $doc, $matches, PREG_SET_ORDER ) ;
 
 		foreach ( $matches as $match )
 		{
