@@ -27,7 +27,7 @@ trait TAttribute
 	public function getAttributes( $prefix = '@' )
 	{
 		$attributes = [] ;
-		$regexp = "/{$prefix}(\w+)\s+(.+)/u" ;
+		$regexp = "/\s{$prefix}(\w+)\s+(.+)/u" ;
 
 		preg_match_all( $regexp, $this->getDocComment(), $matches, PREG_SET_ORDER ) ;
 
@@ -48,7 +48,7 @@ trait TAttribute
 	public function getAnnotations( $prefix = '@@' )
 	{
 		$annotations = [] ;
-		$regexp = "/{$prefix}(\w+)\((.+)\)/u" ;
+		$regexp = "/\s{$prefix}(\w+)\((.+)\)/u" ;
 
 		preg_match_all( $regexp, $this->getDocComment(), $matches, PREG_SET_ORDER ) ;
 
@@ -60,7 +60,7 @@ trait TAttribute
 			{
 				$param = explode( '=', $param ) ;
 
-				if ( count( $param ) == 2 ) // if name=value type.
+				if ( count( $param ) == 2 ) // if "name=value" format.
 				{
 					$params[ trim( $param[ 0 ] ) ] = trim( $param[ 1 ] ) ;
 				}
