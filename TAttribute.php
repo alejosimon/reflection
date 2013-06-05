@@ -19,7 +19,7 @@ namespace Reflection ;
 trait TAttribute
 {
 	/**
-	*	Extract @attributes from the documentation header.
+	*	Gets all attributes in a documentation block.
 	*
 	*	@param Optional string attribute prefix.
 	*	@return Array value.
@@ -30,7 +30,18 @@ trait TAttribute
 	}
 
 	/**
-	*	Extract @attributes from the first file documentation.
+	*	Gets all annotation in a documentation block.
+	*
+	*	@param Optional string annotation prefix.
+	*	@return Array value.
+	*/
+	public function getAnnotations( $prefix = '@@' )
+	{
+		return static::extractAnnotations( $this->getDocComment(), $prefix ) ;
+	}
+
+	/**
+	*	Gets all attributes from the first documentation block.
 	*
 	*	@param Optional string attribute prefix.
 	*	@return Array value.
@@ -54,18 +65,7 @@ trait TAttribute
 	}
 
 	/**
-	*	Extract @@annotations from the documentation header.
-	*
-	*	@param Optional string annotation prefix.
-	*	@return Array value.
-	*/
-	public function getAnnotations( $prefix = '@@' )
-	{
-		return static::extractAnnotations( $this->getDocComment(), $prefix ) ;
-	}
-
-	/**
-	*	Extract @@annotations from the first file documentation.
+	*	Gets all annotations from the first documentation block.
 	*
 	*	@param Optional string annotation prefix.
 	*	@return Array value.
@@ -89,7 +89,7 @@ trait TAttribute
 	}
 
 	/**
-	*	Extract @attributes from the documentation header.
+	*	Extract all attributes from the first documentation block.
 	*
 	*	@param String as documentation style.
 	*	@param Optional string attribute prefix.
@@ -111,10 +111,10 @@ trait TAttribute
 	}
 
 	/**
-	*	Extract @@annotations from the documentation header.
+	*	Extract all annotations from the first documentation block.
 	*
 	*	@param String as documentation style.
-	*	@param Optional string attribute prefix.
+	*	@param Optional string annotation prefix.
 	*	@return Array value.
 	*/
 	public static function extractAnnotations( $doc, $prefix = '@@' )
